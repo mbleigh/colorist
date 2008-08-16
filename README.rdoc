@@ -1,0 +1,21 @@
+= Colorist
+
+Colorist is a library built to handle the conversion, comparison, and 
+manipulation of colors in Ruby projects with an emphasis on W3C standards 
+and CSS-style hex notation.
+
+== Example
+
+  require 'colorist'
+  include Colorist
+  
+  gray = Color.new(0x333333)
+  gray + gray     # => #<Color #666666>
+  gray - "#333"   # => #<Color #000000>
+  
+  gray.invert     # => #<Color #cccccc>
+  gray.brightness # => 0.2
+
+  gray.contrast_with("#f00")
+
+Copyright (c) 2008 Michael Bleigh and Intridea, Inc. Released under the MIT open source license.
