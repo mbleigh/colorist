@@ -18,8 +18,8 @@ end
 
 class String
   # Converts a CSS-style color string to a Color. Can be
-  # in the full form (<tt>#112233</tt>), the abbreviated form
-  # (<tt>#123</tt>) or a CSS named color (<tt>"black"</tt> or <tt>"maroon"</tt>).
+  # in the full form (<tt>\#112233</tt>), the abbreviated form
+  # (<tt>\#123</tt>) or a CSS named color (<tt>"black"</tt> or <tt>"maroon"</tt>).
   def to_color
     Colorist::Color.from_string(self)
   end

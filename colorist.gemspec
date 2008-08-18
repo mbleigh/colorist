@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name = "colorist"
   s.version = "0.0.1"
   s.date = "2008-08-16"
-  s.summary = "A library built to handle the easy conversion and manipulation of colors."
+  s.summary = "A library built to handle the easy conversion and simple manipulation of colors."
   s.email = "michael@intridea.com"
   s.homepage = "http://github.com/mbleigh/colorist"
   s.description = "Colorist is a library built to handle the easy conversion and manipulation of colors with a special emphasis on W3C standards and CSS-style hex color notation."

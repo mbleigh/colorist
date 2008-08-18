@@ -2,7 +2,8 @@
 
 Colorist is a library built to handle the conversion, comparison, and 
 manipulation of colors in Ruby projects with an emphasis on W3C standards 
-and CSS-style hex notation.
+and CSS-style hex notation. See the Color class for additional details
+on the available methods.
 
 == Example
 
@@ -17,5 +18,10 @@ and CSS-style hex notation.
   gray.brightness # => 0.2
 
   gray.contrast_with("#f00")
+  
+== Resources
+
+* GitHub Source: http://github.com/mbleigh/colorist
+* Lighthouse (for bugs): http://mbleigh.lighthouseapp.com/projects/15686-colorist
 
 Copyright (c) 2008 Michael Bleigh and Intridea, Inc. Released under the MIT open source license.

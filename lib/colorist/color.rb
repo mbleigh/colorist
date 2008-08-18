@@ -1,4 +1,7 @@
 module Colorist
+  # Color is the general class for storing and manipulating a color with the
+  # Colorist gem. It provides methods to add, subtract, and calculate aspects
+  # of the color based on W3C and other standards.
   class Color            
     attr_accessor :r, :g, :b
   
@@ -148,9 +151,9 @@ module Colorist
     # Outputs a string representation of the color in the desired format.
     # The available formats are:
     #
-    # * +:css+ - As a CSS hex string (i.e. <tt>#ffffff</tt>) (default)
-    # * +:css_rgb+ - As a CSS RGB value string (i.e. <tt>rgb(255,255,255)</tt>)
-    # * +:rgb+ - As an RGB triplet (i.e. <tt>1.0, 1.0, 1.0</tt>)
+    # * <tt>:css</tt> - As a CSS hex string (i.e. <tt>#ffffff</tt>) (default)
+    # * <tt>:css_rgb</tt> - As a CSS RGB value string (i.e. <tt>rgb(255,255,255)</tt>)
+    # * <tt>:rgb</tt> - As an RGB triplet (i.e. <tt>1.0, 1.0, 1.0</tt>)
     def to_s(format=:css)
       case format
         when :css
@@ -170,8 +173,8 @@ module Colorist
     # scale of 0.0 to 1.0 based on the formula provided. The formulas
     # available are:
     #
-    # * +:w3c+ - <tt>((r * 299 + g * 587 + b * 114) / 1000 / 255</tt>    
-    # * +:standard+ - <tt>sqrt(0.241 * r^2 + 0.691 * g^2 + 0.068 * b^2) / 255</tt>
+    # * <tt>:w3c</tt> - <tt>((r * 299 + g * 587 + b * 114) / 1000 / 255</tt>    
+    # * <tt>:standard</tt> - <tt>sqrt(0.241 * r^2 + 0.691 * g^2 + 0.068 * b^2) / 255</tt>
     def brightness(formula=:w3c)
       case formula
         when :standard
@@ -184,7 +187,7 @@ module Colorist
     # Contrast this color with another color using the provided formula. The
     # available formulas are:
     #
-    # * +:w3c+ - <tt>(max(r1 r2) - min(r1 r2)) + (max(g1 g2) - min(g1 g2)) + (max(b1 b2) - min(b1 b2))</tt>
+    # * <tt>:w3c</tt> - <tt>(max(r1 r2) - min(r1 r2)) + (max(g1 g2) - min(g1 g2)) + (max(b1 b2) - min(b1 b2))</tt>
     def contrast_with(other_color, formula=:w3c)
       other_color = Color.from(other_color)
       case formula
