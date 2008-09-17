@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "colorist"
-  s.version = "0.0.1"
+  s.version = "0.0.2"
   s.date = "2008-08-16"
   s.summary = "A library built to handle the easy conversion and simple manipulation of colors."
   s.email = "michael@intridea.com"
@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.authors = ["Michael Bleigh"]
   s.files = [ "MIT_LICENSE.rdoc",
               "README.rdoc",
+              "CHANGELOG.rdoc",
               "lib/colorist.rb",
               "lib/colorist/color.rb",
               "lib/colorist/core_extensions.rb" ]

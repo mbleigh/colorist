@@ -1,0 +1,3 @@
+= 0.0.2 - 2007-09-17
+
+* Colorist::Color.from_string and String#to_color now work with capitalized colors as well as lowercase.
