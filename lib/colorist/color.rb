@@ -50,7 +50,7 @@ module Colorist
     def self.from_string(some_string)
       if matched = some_string.match(/\A#([0-9a-f]{3})\z/i)
         color = Colorist::Color.from_rgb(*matched[1].split(//).collect{|v| "#{v}#{v}".hex })
-      elsif matched = some_string.match(/\A#([0-9a-f]{6})\z/)
+      elsif matched = some_string.match(/\A#([0-9a-f]{6})\z/i)
         color = Colorist::Color.new
         color.r = matched[1][0..1].hex
         color.g = matched[1][2..3].hex
