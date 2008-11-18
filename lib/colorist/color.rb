@@ -39,11 +39,12 @@ module Colorist
       # convert from 0.0 to 1.0 to 0 to 255 if the :percent option is used
       if options[:percent]
         color.r, color.g, color.b = r * 255, g * 255, b * 255
+      else
+        color.r, color.g, color.b = r, g, b
       end
-      color.r, color.g, color.b = r, g, b
       color
     end
-    
+        
     # Converts a CSS hex string into a color. Works both with the
     # full form (i.e. <tt>#ffffff</tt>) and the abbreviated form (<tt>#fff</tt>). Can
     # also take any of the 16 named CSS colors.
