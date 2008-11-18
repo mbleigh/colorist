@@ -192,7 +192,7 @@ module Colorist
     
     # Returns an array of the hue, saturation and value of the color.
     # Hue will range from 0-359, hue and saturation will be between 0 and 1.
-    
+
     def to_hsv
       red, green, blue = *[r, g, b].collect {|x| x / 255.0}
       max = [red, green, blue].max
@@ -248,6 +248,28 @@ module Colorist
     # Returns the opposite of the current color.
     def invert
       Color.from_rgb(255 - r, 255 - g, 255 - b)
+    end
+        
+    # Uses a naive formula to generate a gradient between this color and the given color.
+    # Returns the array of colors that make the gradient, including this color and the
+    # target color.  By default will return 10 colors, but this can be changed by supplying
+    # an optional steps parameter.
+    def gradient_to(color, steps = 10)
+      color_to = Colorist::Color.from(color)
+      red = color_to.r - r
+      green = color_to.g - g
+      blue = color_to.b - b
+            
+      result = (1..(steps - 3)).to_a.collect do |step|
+        percentage = step.to_f / (steps - 1)
+        Color.from_rgb(r + (red * percentage), g + (green * percentage), b + (blue * percentage))
+      end
+      
+      # Add first and last colors to result, avoiding uneccessary calculation and rounding errors
+      
+      result.unshift(self.dup)
+      result.push(color.dup)
+      result
     end
     
     # Converts the current color to grayscale using the brightness
