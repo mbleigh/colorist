@@ -44,6 +44,30 @@ module Colorist
       end
       color
     end
+    
+    # Initialize a colour based on HSV/HSB values. Hue should be between 0 and 360 (inclusive),
+    # while saturation and value should be from 0.0 to 1.0.
+    def self.from_hsv(hue, saturation, value)
+      saturation = 1 if saturation > 1
+      value = 1 if saturation > 1
+      
+      # Conversion formula taken from wikipedia
+      
+      f = (hue / 60.0) - (hue / 60)
+      
+      p = value * (1 - saturation)
+      q = value * (1 - (saturation * f))
+      t = value * (1 - (saturation * (1 - f)))
+      
+      case ((hue / 60) % 6).floor
+        when 0 then from_rgb(value, t, p, :percent => true)
+        when 1 then from_rgb(q, value, p, :percent => true)
+        when 2 then from_rgb(p, value, t, :percent => true)
+        when 3 then from_rgb(p, q, value, :percent => true)
+        when 4 then from_rgb(t, p, value, :percent => true)
+        when 5 then from_rgb(value, p, q, :percent => true)
+      end
+    end
         
     # Converts a CSS hex string into a color. Works both with the
     # full form (i.e. <tt>#ffffff</tt>) and the abbreviated form (<tt>#fff</tt>). Can
@@ -164,6 +188,28 @@ module Colorist
         when :rgb
           "%.3f, %.3f, %.3f" % [r / 255, g / 255, b / 255]
       end
+    end
+    
+    # Returns an array of the hue, saturation and value of the color.
+    # Hue will range from 0-359, hue and saturation will be between 0 and 1.
+    
+    def to_hsv
+      red, green, blue = *[r, g, b].collect {|x| x / 255.0}
+      max = [red, green, blue].max
+      min = [red, green, blue].min
+
+      if min == max
+        hue = 0
+      elsif max == red
+        hue = 60 * ((green - blue) / (max - min))
+      elsif max == green
+        hue = 60 * ((blue - red) / (max - min)) + 120
+      elsif max == blue
+        hue = 60 * ((red - green) / (max - min)) + 240
+      end
+
+      saturation = (max == 0) ? 0 : (max - min) / max
+      [hue % 360, saturation, max]
     end
   
     def inspect
