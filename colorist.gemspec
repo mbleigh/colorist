@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "colorist"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
   s.date = "2008-08-16"
   s.summary = "A library built to handle the easy conversion and simple manipulation of colors."
   s.email = "michael@intridea.com"
