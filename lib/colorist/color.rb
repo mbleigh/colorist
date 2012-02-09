@@ -121,6 +121,17 @@ module Colorist
 		#
 		# * <tt>:css</tt> - Used by default, represent CSS colors specified in CSS_COLOR_NAMES constant
     # * <tt>:x11</tt> - represent X11 standard colors specified in X11_COLOR_NAMES constant
+		#
+		# Examples :
+		#  
+		#  # Here we can ommit standard parameter (:css by default) 
+		#  color = Colorist::Color.from_string "gray" # => <Color #808080>
+		#
+		#  # For X11 standard (gray hex value is different)
+		#  color = Colorist::Color.from_string "gray", :x11 # => <Color #BEBEBE>
+		#
+		#  # Other X11 color (case insensitive)
+		#  color = Colorist::Color.from_string "Dark Olive Green", :x11 # => <Color #556B2F>
     def self.from_string(some_string, standard=:css)
 			some_string = some_string.downcase.sub(/ /, "_")
       if matched = some_string.match(/\A#([0-9a-f]{3})\z/i)
