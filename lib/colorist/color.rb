@@ -5,7 +5,7 @@ module Colorist
   class Color            
     attr_accessor :r, :g, :b
   
-    CSS_COLOR_NAMES = {  "maroon"  => 0x800000,
+    W3C_COLOR_NAMES = {  "maroon"  => 0x800000,
                          "red"     => 0xff0000,
                          "orange"  => 0xffa500,
                          "yellow"  => 0xffff00,
@@ -208,18 +208,18 @@ module Colorist
       end
     end
         
-    # Converts a CSS hex string into a color. Works both with the
+    # Converts a W3C hex string into a color. Works both with the
     # full form (i.e. <tt>#ffffff</tt>) and the abbreviated form (<tt>#fff</tt>). Can
-    # also take any of the 16 named CSS colors.
+    # also take any of the 16 named W3C colors.
 		# Specify a standard if you enter the key word as defined by the standard you use, the 
 		# available standards are :
 		#
-		# * <tt>:css</tt> - Used by default, represent CSS colors specified in CSS_COLOR_NAMES constant
+		# * <tt>:w3c</tt> - Used by default, represent W3C colors specified in W3C_COLOR_NAMES constant
     # * <tt>:x11</tt> - represent X11 standard colors specified in X11_COLOR_NAMES constant
 		#
 		# Examples :
 		#  
-		#  # Here we can ommit standard parameter (:css by default) 
+		#  # Here we can ommit standard parameter (:w3c by default) 
 		#  color = Colorist::Color.from_string "gray" # => <Color #808080>
 		#
 		#  # For X11 standard (gray hex value is different)
@@ -227,7 +227,7 @@ module Colorist
 		#
 		#  # Other X11 color (case insensitive)
 		#  color = Colorist::Color.from_string "Dark Olive Green", :x11 # => <Color #556B2F>
-    def self.from_string(some_string, standard=:css)
+    def self.from_string(some_string, standard=:w3c)
 			some_string = some_string.downcase.sub(/ /, "_")
       if matched = some_string.match(/\A#([0-9a-f]{3})\z/i)
         color = Colorist::Color.from_rgb(*matched[1].split(//).collect{|v| "#{v}#{v}".hex })
@@ -236,11 +236,11 @@ module Colorist
         color.r = matched[1][0..1].hex
         color.g = matched[1][2..3].hex
         color.b = matched[1][4..5].hex
-      elsif standard == :css
-				if CSS_COLOR_NAMES.key?(some_string)
-					color = Colorist::Color.new(CSS_COLOR_NAMES[some_string])
+      elsif standard == :w3c
+				if W3C_COLOR_NAMES.key?(some_string)
+					color = Colorist::Color.new(W3C_COLOR_NAMES[some_string])
 				else
-					raise ArgumentError, "#{some_string} is not a valid CSS color.", caller
+					raise ArgumentError, "#{some_string} is not a valid W3C color.", caller
 				end
 			elsif standard == :x11
 				if X11_COLOR_NAMES.key?(some_string)
@@ -249,7 +249,7 @@ module Colorist
 					raise ArgumentError, "#{some_string} is not a valid X11 color.", caller
 				end
       else
-        raise ArgumentError, "Must provide a valid CSS hex color or color name.", caller
+        raise ArgumentError, "Must provide a valid W3C or X11 hex color or color name.", caller
       end
       color
     end
@@ -265,32 +265,6 @@ module Colorist
           raise ArgumentError, "#{some_entity.class.to_s} cannot be coerced into a color.", caller unless some_entity.respond_to?(:to_color)
           some_entity.to_color
       end
-    end
-
-		# Returns a Color instance by given a color name.
-		# If the specified standard is not supported then it returns nil.
-		# The standard available are :
-		#
-		# * <tt>:css</tt> - Used by default, represent CSS colors specified in CSS_COLOR_NAMES constant
-    # * <tt>:x11</tt> - represent X11 standard colors specified in X11_COLOR_NAMES constant
-    # 
-		# Examples:
-    #
-		#   color = Colorist::Color.get "white"
-		#   color = Colorist::Color.get "Black"
-		#   color = Colorist::Color.get "Dark gray", :x11
-		#
-    def self.get(color, standard=:css)
-    	color = color.downcase.sub(/ /, "_")
-			obj = nil
-			
-			case standard
-    	when :css
-	 			obj = self.new CSS_COLOR_NAMES[color] if CSS_COLOR_NAMES.include? color
-			when :x11 then self.new X11_COLOR_NAMES[color]
-			else nil
-    	end
-			obj
     end
   
     # Create a duplicate of this color.
