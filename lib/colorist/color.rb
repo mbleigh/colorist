@@ -116,7 +116,13 @@ module Colorist
     # Converts a CSS hex string into a color. Works both with the
     # full form (i.e. <tt>#ffffff</tt>) and the abbreviated form (<tt>#fff</tt>). Can
     # also take any of the 16 named CSS colors.
-    def self.from_string(some_string)
+		# Specify a standard if you enter the key word as defined by the standard you use, the 
+		# available standards are :
+		#
+		# * <tt>:css</tt> - Used by default, represent CSS colors specified in CSS_COLOR_NAMES constant
+    # * <tt>:x11</tt> - represent X11 standard colors specified in X11_COLOR_NAMES constant
+    def self.from_string(some_string, standard=:css)
+			some_string = some_string.downcase.sub(/ /, "_")
       if matched = some_string.match(/\A#([0-9a-f]{3})\z/i)
         color = Colorist::Color.from_rgb(*matched[1].split(//).collect{|v| "#{v}#{v}".hex })
       elsif matched = some_string.match(/\A#([0-9a-f]{6})\z/i)
@@ -124,8 +130,18 @@ module Colorist
         color.r = matched[1][0..1].hex
         color.g = matched[1][2..3].hex
         color.b = matched[1][4..5].hex
-      elsif CSS_COLOR_NAMES.key?(some_string)
-        color = Colorist::Color.new(CSS_COLOR_NAMES[some_string])
+      elsif standard == :css
+				if CSS_COLOR_NAMES.key?(some_string)
+					color = Colorist::Color.new(CSS_COLOR_NAMES[some_string])
+				else
+					raise ArgumentError, "#{some_string} is not a valid CSS color.", caller
+				end
+			elsif standard == :x11
+				if X11_COLOR_NAMES.key?(some_string)
+					color = Colorist::Color.new(X11_COLOR_NAMES[some_string])
+				else
+					raise ArgumentError, "#{some_string} is not a valid X11 color.", caller
+				end
       else
         raise ArgumentError, "Must provide a valid CSS hex color or color name.", caller
       end
@@ -143,6 +159,32 @@ module Colorist
           raise ArgumentError, "#{some_entity.class.to_s} cannot be coerced into a color.", caller unless some_entity.respond_to?(:to_color)
           some_entity.to_color
       end
+    end
+
+		# Returns a Color instance by given a color name.
+		# If the specified standard is not supported then it returns nil.
+		# The standard available are :
+		#
+		# * <tt>:css</tt> - Used by default, represent CSS colors specified in CSS_COLOR_NAMES constant
+    # * <tt>:x11</tt> - represent X11 standard colors specified in X11_COLOR_NAMES constant
+    # 
+		# Examples:
+    #
+		#   color = Colorist::Color.get "white"
+		#   color = Colorist::Color.get "Black"
+		#   color = Colorist::Color.get "Dark gray", :x11
+		#
+    def self.get(color, standard=:css)
+    	color = color.downcase.sub(/ /, "_")
+			obj = nil
+			
+			case standard
+    	when :css
+	 			obj = self.new CSS_COLOR_NAMES[color] if CSS_COLOR_NAMES.include? color
+			when :x11 then self.new X11_COLOR_NAMES[color]
+			else nil
+    	end
+			obj
     end
   
     # Create a duplicate of this color.
