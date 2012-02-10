@@ -69,6 +69,16 @@ describe Colorist::Color do
 			@color.should == Colorist::Color.from_string("gray")
 		end
 		
+		it "should add color correctly" do
+			color = Colorist::Color.new(0x223344) + Colorist::Color.new(0x111111)
+			color.should == Colorist::Color.new(0x334455)
+		end
+		
+		it "should substract color correctly" do
+			color = Colorist::Color.new(0x223344) - Colorist::Color.new(0x111111)
+			color.should == Colorist::Color.new(0x112233)
+		end
+		
 	end
 	
 	describe "#4 Format" do

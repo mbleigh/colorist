@@ -14,6 +14,8 @@ Gem::Specification.new do |s|
               "lib/colorist.rb",
               "lib/colorist/color.rb",
               "lib/colorist/core_extensions.rb" ]
+	s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec', '~> 2.8'
   s.rdoc_options = ["--main", "README.rdoc"]
   s.extra_rdoc_files = ["MIT_LICENSE.rdoc", "README.rdoc"]
 end
