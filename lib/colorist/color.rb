@@ -228,8 +228,10 @@ module Colorist
     #  # Other X11 color (case insensitive)
     #  color = Colorist::Color.from_string "Dark Olive Green", :x11 # => <Color #556B2F>
     def self.from_string(some_string, standard=:w3c)
-      some_string = some_string.downcase.sub(/ /, "_")
-      if matched = some_string.match(/\A#([0-9a-f]{3})\z/i)
+      some_string = some_string.downcase.gsub(/ /, "_")
+      if matched = some_string.match(/\Argb\(_*(\d+),_*(\d+),_*(\d+)_*\)\z/i)
+        color = Colorist::Color.from_rgb matched[1].to_i, matched[2].to_i, matched[3].to_i
+      elsif matched = some_string.match(/\A#([0-9a-f]{3})\z/i)
         color = Colorist::Color.from_rgb(*matched[1].split(//).collect{|v| "#{v}#{v}".hex })
       elsif matched = some_string.match(/\A#([0-9a-f]{6})\z/i)
         color = Colorist::Color.new

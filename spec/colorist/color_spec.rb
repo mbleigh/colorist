@@ -37,6 +37,14 @@ describe Colorist::Color do
 	
 	describe "#2 From entity" do
 		
+		it "should return the color from css rgb string rgb(12,34, 56)" do
+			Colorist::Color.from_string("rgb(12,34, 56)").to_s.should == "#0c2238"
+		end
+
+		it "should return the color ignoring whitespace from css rgb string rgb( 65, 43, 21 )" do
+			Colorist::Color.from_string("rgb( 65, 43, 21 )").to_s.should == "#412b15"
+		end
+
 		it "should return the color from css string (#121212)" do
 			Colorist::Color.from_string("#121212").to_s.should == "#121212"
 		end
